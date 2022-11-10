@@ -17,7 +17,8 @@ module.exports = {
                 collapsable: false, // 不折叠
                 children: [
                     { title: "uni-app", path: "/note/uniapp" },
-                    { title: "vue3", path: "/note/vue3" }
+                    { title: "vue3", path: "/note/vue3" },
+                    { title: "canvas", path: "/note/canvas" },
                 ],
             }
         ]
