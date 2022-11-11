@@ -6,7 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>canvas - 裁剪</title>
   <style>
-   
+   .a{
+    color: rgb(205, 234, 11);
+    opacity: 0.1;
+   }
   </style>
 </head>
 <body>
@@ -14,33 +17,27 @@
     当前浏览器不支持canvas元素，请升级或更换浏览器！
   </canvas>
   <script>
-     // 获取 canvas 元素
-  var canvas = document.getElementById('canvas');
-  // 通过getContext方法判断浏览器是否支持canvas
-  if(canvas.getContext) {
-    // 获取绘图上下文
-    var ctx = canvas.getContext('2d');
-    ctx.beginPath()
-      // 绘制一条虚线
-      ctx.setLineDash([5, 10, 20]);
-      // 非负偶数的数组
-      console.log(ctx.getLineDash()); // [5, 10, 20, 5, 10, 20]
-      // 设置线条长度为5
-      ctx.lineWidth = 5;
-      // 设置线条两个端点的样式为圆形
-      ctx.lineCap='round'
-      ctx.moveTo(150, 75);
-      ctx.lineTo(300, 150); 
-      ctx.stroke();
-    
+    // 获取 canvas 元素
+    var canvas = document.getElementById('canvas');
+    // 通过判断getContext方法是否存在来判断浏览器的支持性
+    if(canvas.getContext) {
+      // 获取绘图上下文
+      var ctx = canvas.getContext('2d');
+      // 创建渐变
+      var gradient1 = ctx.createLinearGradient(10, 10, 100, 10);
+      gradient1.addColorStop(0, "#00ff00");
+      gradient1.addColorStop(1, "#ff0000");
+      var gradient2 = ctx.createLinearGradient(10, 10, 100, 10);
+      // 从0.5的位置才开始渐变
+      gradient2.addColorStop(0.5, "#00ff00");
+      gradient2.addColorStop(1, "#ff0000");
       ctx.beginPath()
-      // 绘制一条虚线
-      ctx.setLineDash([5, 10, 20, 40]);
-      console.log(ctx.getLineDash()); // [5, 10, 20, 40]
-      ctx.moveTo(150, 75);
-      ctx.lineTo(0, 150); 
-      ctx.stroke();
-  }
-  </script>
+      ctx.fillStyle = gradient1;
+      ctx.fillRect(10, 10, 200, 100);
+      ctx.beginPath();
+      ctx.fillStyle = gradient2;
+      ctx.fillRect(10, 150, 200, 100);
+    }
+</script>
 </body>
 </html>
