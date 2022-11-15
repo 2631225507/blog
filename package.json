@@ -6,7 +6,7 @@
   "author": "huanghegen <huanghg@one-sports.com>",
   "license": "MIT",
   "devDependencies": {
-    "node-sass": "^4.14.1",
+    "node-sass": "4.14.1",
     "sass-loader": "7.3.1",
     "vuepress": "^1.9.7"
   },

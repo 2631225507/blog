@@ -53,7 +53,6 @@ export default {
         border-bottom: 1px solid #d5d8db;
         height: 30px;
     }
-
     .label-name {
         background: #e5f6ed;
         text-align: left;
