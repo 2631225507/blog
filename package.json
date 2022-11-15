@@ -9,5 +9,10 @@
   "scripts": {
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
+  },
+  "repository": "https://github.com/2631225507/blog.git",
+  "author": "huanghegen <huanghg@one-sports.com>",
+  "devDependencies": {
+    "vuepress": "^1.9.7"
   }
 }
