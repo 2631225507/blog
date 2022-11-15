@@ -1,9 +1,3 @@
-// import components from './config/component'
-
-// // export default ({ Vue }) => {
-// //     components.forEach(({name, component}) => Vue.component(name, component))
-// // }
-
 /**
  * 扩展 VuePress 应用
  */
