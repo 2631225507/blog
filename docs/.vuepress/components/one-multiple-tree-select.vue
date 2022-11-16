@@ -97,28 +97,27 @@ export default {
   methods: {
     // 初始化单选树的值
     async initSingleTree() {
-      let that = this
-      that.singleSelectTreeKey = this.value
-      if (that.singleSelectTreeKey && that.options.length > 0) {
-        that.$nextTick(() => {
-          that.selectTreeDefaultSelectedKeys = that.singleSelectTreeKey
-            ? that.singleSelectTreeKey.split(',')
+      this.singleSelectTreeKey = this.value
+      if (this.singleSelectTreeKey && this.options.length > 0) {
+        this.$nextTick(() => {
+          this.selectTreeDefaultSelectedKeys = this.singleSelectTreeKey
+            ? this.singleSelectTreeKey.split(',')
             : [] // 设置默认展开
           let keyArr = []
           let valueArr = []
-          if (that.singleSelectTreeKey) {
-            that.singleSelectTreeKey.split(',').forEach((item) => {
-              let tdata = that.$refs.multipleSelectTree.getNode(item).data
+          if (this.singleSelectTreeKey) {
+            this.singleSelectTreeKey.split(',').forEach((item) => {
+              let tdata = this.$refs.multipleSelectTree.getNode(item).data
               keyArr.push(tdata.unitId)
               valueArr.push(tdata.name)
             })
           }
-          that.multipleSelectTreeVal = valueArr
-          that.multipleSelectTreeKey = keyArr.join(',')
-          that.$emit('getValue', that.multipleSelectTreeKey)
+          this.multipleSelectTreeVal = valueArr
+          this.multipleSelectTreeKey = keyArr.join(',')
+          this.$emit('getValue', this.multipleSelectTreeKey)
           // 多选树
-          that.$refs.multipleSelectTree.setCheckedKeys(
-            that.selectTreeDefaultSelectedKeys
+          this.$refs.multipleSelectTree.setCheckedKeys(
+            this.selectTreeDefaultSelectedKeys
           )
         })
       }
@@ -142,62 +141,60 @@ export default {
     },
     // select多选时移除某项操作
     removeSelectTreeTag(val) {
-      let that = this
-      const stack = JSON.parse(JSON.stringify(that.options))
+      const stack = JSON.parse(JSON.stringify(this.options))
       while (stack.length) {
         const curr = stack.shift()
         if (curr.name == val) {
-          that.$refs.multipleSelectTree.setChecked(curr.unitId, false)
-          let temporaryId = that.multipleSelectTreeKey.split(',')
+          this.$refs.multipleSelectTree.setChecked(curr.unitId, false)
+          let temporaryId = this.multipleSelectTreeKey.split(',')
           temporaryId.forEach((item, tindex) => {
             if (item == curr.unitId) {
               temporaryId.splice(tindex, 1)
             }
           })
-          that.multipleSelectTreeKey = temporaryId.join(',')
+          this.multipleSelectTreeKey = temporaryId.join(',')
         }
         if (curr.subscriptionVOS && curr.subscriptionVOS.length) {
           stack.unshift(...curr.subscriptionVOS)
         }
       }
-      that.$emit('getValue', that.multipleSelectTreeKey)
+      this.$emit('getValue', this.multipleSelectTreeKey)
     },
     // 节点选中操作
     multipleSelectTreeCheckNode(node, store) {
-      let that = this
       // 取消级联及开启子节点级联
-      if (that.checkStrictly && that.childCascade && that.type == '2') {
-        let key = that.props.value
+      if (this.checkStrictly && this.childCascade && this.type == '2') {
+        let key = this.props.value
         let target = node[key]
         // 判断当前节点是选中还是取消选中
         if (store.checkedKeys.indexOf(target) === -1) {
-          that.cancelChildChecked(node)
+          this.cancelChildChecked(node)
           return
         }
-        let result = that
-          .treeFindPath(that.options, (data) => data[key] === target)
+        let result = this
+          .treeFindPath(this.options, (data) => data[key] === target)
           .map((item) => {
             return item[key]
           })
-        let currentKeys = that.$refs.multipleSelectTree.getCheckedKeys()
-        that.$refs.multipleSelectTree.setCheckedKeys([
+        let currentKeys = this.$refs.multipleSelectTree.getCheckedKeys()
+        this.$refs.multipleSelectTree.setCheckedKeys([
           ...result,
           ...currentKeys,
         ])
-      } else if (that.checkStrictly && that.childCascade && that.type == '1') {
-        that.clickDeal(node, store)
+      } else if (this.checkStrictly && this.childCascade && this.type == '1') {
+        this.clickDeal(node, store)
       }
       // 进行数据回填
-      const checkedNodes = that.$refs.multipleSelectTree.getCheckedNodes()
+      const checkedNodes = this.$refs.multipleSelectTree.getCheckedNodes()
       const keyArr = []
       const valueArr = []
       checkedNodes.forEach((item) => {
         keyArr.push(item.unitId)
         valueArr.push(item.name)
       })
-      that.multipleSelectTreeVal = valueArr
-      that.multipleSelectTreeKey = keyArr.join(',')
-      that.$emit('getValue', that.multipleSelectTreeKey)
+      this.multipleSelectTreeVal = valueArr
+      this.multipleSelectTreeKey = keyArr.join(',')
+      this.$emit('getValue', this.multipleSelectTreeKey)
     },
 
     clickDeal(currentObj, treeStatus) {
