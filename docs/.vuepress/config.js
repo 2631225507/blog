@@ -2,9 +2,11 @@
 // import { backToTopPlugin } from '@vuepress/plugin-back-to-top'
 module.exports = {
     // 标题
-    title: '文档',
+    title: '学习笔记',
     // 描述
     description: 'Just playing around',
+    // 部署gitHub
+    base: '/blog/',
     // 使用自定义vue组件
     plugins: [
         'demo-container'
