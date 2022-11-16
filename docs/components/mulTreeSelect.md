@@ -1,31 +1,45 @@
 ## 基础用法
 
-下拉树形结构展示(this.$refs.xxx.selectTreeClearHandle()可用于清楚已选数据)
+### 下拉多选-父子关联
 
 <template>
-    <one-tree-select 
-        ref="treeSelect"
-        :value="id"
-        :options="dataOptions"
+    <one-multiple-tree-select
+        style="margin-top:10px"
+        ref="mulTreeSelect"
+        :value="ids"
         :props="dataDefaultProps"
+        :options="dataOptions"
         placeholder="请选择"
-        @getValue="getValue($event)" />
+        :checkStrictly="false"
+        :childCascade="false"
+        @getValue="getValue($event)"/>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            id :'1',
+            ids :'',
+            ids1:'',
+            ids2 :'',
+            ids3:'',
             dataOptions:[{
               id :'1',
               unitName: '指南',
               children: [{
                 id :'11',
-                unitName: '设计原则',
+                unitName: '手册',
                 children: [{
                   id :'111',
                   unitName: '一致',
+                  children:[]
+                }]
+              },{
+                id :'345',
+                unitName: '文档',
+                children: [{
+                  id :'467',
+                  unitName: '线上',
                   children:[]
                 }]
               }]
@@ -52,18 +66,203 @@ export default {
     },
     methods:{
       getValue(ids) {
-        this.id = ids
+        this.ids = ids
+      },
+      getValue1(ids1) {
+        this.ids1 = ids1
+      },
+      getValue2(ids2) {
+        this.ids2 = ids2
+      },
+      getValue3(ids3) {
+        this.ids3 = ids3
       }
     }
 }
 </script>
 
+<demo-block>
+
+```vue
+<template>
+    <one-multiple-tree-select
+        style="margin-top:10px"
+        ref="mulTreeSelect"
+        :value="ids"
+        :props="dataDefaultProps"
+        :options="dataOptions"
+        placeholder="请选择"
+        :checkStrictly="false"
+        :childCascade="false"
+        @getValue="getValue($event)"/>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            ids :'',
+            dataOptions:[{
+              id :'1',
+              unitName: '指南',
+              children: [{
+                id :'11',
+                unitName: '手册',
+                children: [{
+                  id :'111',
+                  unitName: '一致',
+                  children:[]
+                }]
+              },{
+                id :'345',
+                unitName: '文档',
+                children: [{
+                  id :'467',
+                  unitName: '线上',
+                  children:[]
+                }]
+              }]
+            },
+            {
+              id :'22',
+              unitName: '设计模式',
+              children: [{
+                id :'222',
+                unitName: '工厂',
+                children: [{
+                  id :'3333',
+                  unitName: '代理',
+                  children:[]
+                }]
+              }]
+            }],
+            dataDefaultProps:{
+                value: 'id', // ID字段名
+                label: 'unitName', // 显示名称
+                children: 'children', // 子级字段名
+            }
+        }
+    },
+    methods:{
+      getValue(ids) {
+        this.ids = ids
+      }
+    }
+}
+</script>
+```
+
+</demo-block>
+
+
+### 下拉多选-父子不关联
+
+<template>
+    <one-multiple-tree-select
+        style="margin-top:10px"
+        ref="mulTreeSelect"
+        :value="ids"
+        :props="dataDefaultProps"
+        :options="dataOptions"
+        placeholder="请选择"
+        :checkStrictly="true"
+        :childCascade="false"
+        @getValue="getValue2($event)"/>
+</template>
 
 <demo-block>
 
 ```vue
 <template>
-   <one-multiple-tree-select
+    <one-multiple-tree-select
+        style="margin-top:10px"
+        ref="mulTreeSelect"
+        :value="ids"
+        :props="dataDefaultProps"
+        :options="dataOptions"
+        placeholder="请选择"
+        :checkStrictly="true"
+        :childCascade="false"
+        @getValue="getValue($event)"/>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            ids :'',
+            dataOptions:[{
+              id :'1',
+              unitName: '指南',
+              children: [{
+                id :'11',
+                unitName: '手册',
+                children: [{
+                  id :'111',
+                  unitName: '一致',
+                  children:[]
+                }]
+              },{
+                id :'345',
+                unitName: '文档',
+                children: [{
+                  id :'467',
+                  unitName: '线上',
+                  children:[]
+                }]
+              }]
+            },
+            {
+              id :'22',
+              unitName: '设计模式',
+              children: [{
+                id :'222',
+                unitName: '工厂',
+                children: [{
+                  id :'3333',
+                  unitName: '代理',
+                  children:[]
+                }]
+              }]
+            }],
+            dataDefaultProps:{
+                value: 'id', // ID字段名
+                label: 'unitName', // 显示名称
+                children: 'children', // 子级字段名
+            }
+        }
+    },
+    methods:{
+      getValue(ids) {
+        this.ids = ids
+      }
+    }
+}
+</script>
+```
+
+</demo-block>
+
+
+
+### 下拉多选-父联动子，子不联动父
+<template>
+    <one-multiple-tree-select
+        style="margin-top:10px"
+        ref="mulTreeSelect"
+        :value="ids1"
+        :props="dataDefaultProps"
+        :options="dataOptions"
+        placeholder="请选择"
+        @getValue="getValue1($event)"/>
+</template>
+
+<demo-block>
+
+```vue
+<template>
+    <one-multiple-tree-select
+        style="margin-top:10px"
         ref="mulTreeSelect"
         :value="ids"
         :props="dataDefaultProps"
@@ -78,35 +277,43 @@ export default {
         return {
             ids :'1',
             dataOptions:[{
-              unitId :'1',
-              name: '指南',
+              id :'1',
+              unitName: '指南',
               children: [{
-                unitId :'11',
-                name: '设计原则',
+                id :'11',
+                unitName: '手册',
                 children: [{
-                  unitId :'111',
-                  name: '一致',
+                  id :'111',
+                  unitName: '一致',
+                  children:[]
+                }]
+              },{
+                id :'345',
+                unitName: '文档',
+                children: [{
+                  id :'467',
+                  unitName: '线上',
                   children:[]
                 }]
               }]
             },
             {
-              unitId :'22',
-              name: '设计模式',
+              id :'22',
+              unitName: '设计模式',
               children: [{
-                unitId :'222',
-                name: '工厂',
+                id :'222',
+                unitName: '工厂',
                 children: [{
-                  unitId :'3333',
-                  name: '代理',
+                  id :'3333',
+                  unitName: '代理',
                   children:[]
                 }]
               }]
             }],
             dataDefaultProps:{
-                label: 'name',
-                value: 'unitId',
-                children: 'children',
+                value: 'id', // ID字段名
+                label: 'unitName', // 显示名称
+                children: 'children', // 子级字段名
             }
         }
     },
@@ -120,6 +327,20 @@ export default {
 ```
 
 </demo-block>
+
+
+### 下拉多选-子联动父，父不联动子
+<template>
+    <one-multiple-tree-select
+        style="margin-top:10px"
+        ref="mulTreeSelect"
+        :value="ids3"
+        :props="dataDefaultProps"
+        :options="dataOptions"
+        placeholder="请选择"
+        type="2"
+        @getValue="getValue3($event)"/>
+</template>
 
 
 ### Attributes

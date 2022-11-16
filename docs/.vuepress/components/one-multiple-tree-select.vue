@@ -1,33 +1,16 @@
 <template>
-  <el-select
-    v-model="multipleSelectTreeVal"
-    clearable
-    collapse-tags
-    multiple
-    :disabled="disabled"
-    popper-class="select-tree-popper"
-    @clear="selectTreeClearHandle"
-    @remove-tag="removeSelectTreeTag"
-  >
+  <el-select v-model="multipleSelectTreeVal" clearable collapse-tags multiple :disabled="disabled"
+    popper-class="select-tree-popper" @clear="selectTreeClearHandle" @remove-tag="removeSelectTreeTag">
     <!-- 参数：
             current-node-key：当前选中节点
             default-checked-keys：默认勾选的节点的 key 的数组
             default-expanded-keys：默认展开的节点的 key 的数组
          -->
     <el-option :value="multipleSelectTreeKey">
-      <el-tree
-        ref="multipleSelectTree"
-        :check-strictly="checkStrictly"
-        :current-node-key="multipleSelectTreeKey"
-        :default-checked-keys="selectTreeDefaultSelectedKeys"
-        :default-expanded-keys="selectTreeDefaultSelectedKeys"
-        :data="options"
-        highlight-current
-        :props="props"
-        :node-key="props.value"
-        show-checkbox
-        @check="multipleSelectTreeCheckNode"
-      ></el-tree>
+      <el-tree ref="multipleSelectTree" :check-strictly="checkStrictly" :current-node-key="multipleSelectTreeKey"
+        :default-checked-keys="selectTreeDefaultSelectedKeys" :default-expanded-keys="selectTreeDefaultSelectedKeys"
+        :data="options" highlight-current :props="props" :node-key="props.value" show-checkbox
+        @check="multipleSelectTreeCheckNode"></el-tree>
     </el-option>
   </el-select>
 </template>
@@ -108,8 +91,8 @@ export default {
           if (this.singleSelectTreeKey) {
             this.singleSelectTreeKey.split(',').forEach((item) => {
               let tdata = this.$refs.multipleSelectTree.getNode(item).data
-              keyArr.push(tdata.unitId)
-              valueArr.push(tdata.name)
+              keyArr.push(tdata[this.props.value])
+              valueArr.push(tdata[this.props.label])
             })
           }
           this.multipleSelectTreeVal = valueArr
@@ -144,18 +127,18 @@ export default {
       const stack = JSON.parse(JSON.stringify(this.options))
       while (stack.length) {
         const curr = stack.shift()
-        if (curr.name == val) {
-          this.$refs.multipleSelectTree.setChecked(curr.unitId, false)
+        if (curr[this.props.label] == val) {
+          this.$refs.multipleSelectTree.setChecked(curr[this.props.value], false)
           let temporaryId = this.multipleSelectTreeKey.split(',')
           temporaryId.forEach((item, tindex) => {
-            if (item == curr.unitId) {
+            if (item == curr[this.props.value]) {
               temporaryId.splice(tindex, 1)
             }
           })
           this.multipleSelectTreeKey = temporaryId.join(',')
         }
-        if (curr.subscriptionVOS && curr.subscriptionVOS.length) {
-          stack.unshift(...curr.subscriptionVOS)
+        if (curr[this.props.children] && curr[this.props.children].length) {
+          stack.unshift(...curr[this.props.children])
         }
       }
       this.$emit('getValue', this.multipleSelectTreeKey)
@@ -189,8 +172,8 @@ export default {
       const keyArr = []
       const valueArr = []
       checkedNodes.forEach((item) => {
-        keyArr.push(item.unitId)
-        valueArr.push(item.name)
+        keyArr.push(item[this.props.value])
+        valueArr.push(item[this.props.label])
       })
       this.multipleSelectTreeVal = valueArr
       this.multipleSelectTreeKey = keyArr.join(',')
@@ -199,7 +182,7 @@ export default {
 
     clickDeal(currentObj, treeStatus) {
       // 用于：父子节点严格互不关联时，父节点勾选变化时通知子节点同步变化，实现单向关联。
-      let selected = treeStatus.checkedKeys.indexOf(currentObj.unitId) // -1未选中
+      let selected = treeStatus.checkedKeys.indexOf(currentObj[this.props.value]) // -1未选中
       // 选中
       if (selected !== -1) {
         // 子节点只要被选中父节点就被选中
@@ -208,16 +191,16 @@ export default {
         this.uniteChildSame(currentObj, true)
       } else {
         // 未选中 处理子节点全部为未选中
-        if (currentObj.subscriptionVOS && currentObj.subscriptionVOS.length) {
+        if (currentObj[this.props.children] && currentObj[this.props.children].length) {
           this.uniteChildSame(currentObj, false)
         }
       }
     },
     uniteChildSame(treeList, isSelected) {
-      this.$refs.multipleSelectTree.setChecked(treeList.unitId, isSelected)
-      if (treeList.subscriptionVOS) {
-        for (let i = 0; i < treeList.subscriptionVOS.length; i++) {
-          this.uniteChildSame(treeList.subscriptionVOS[i], isSelected)
+      this.$refs.multipleSelectTree.setChecked(treeList[this.props.value], isSelected)
+      if (treeList[this.props.children]) {
+        for (let i = 0; i < treeList[this.props.children].length; i++) {
+          this.uniteChildSame(treeList[this.props.children][i], isSelected)
         }
       }
     },
@@ -233,7 +216,7 @@ export default {
      */
     cancelChildChecked(node) {
       let childKey = []
-      this.findChildren(node, childKey)
+      this.findChildren(node, childKey, this.props.children, this.props.value)
       let currentKeys = this.$refs.multipleSelectTree.getCheckedKeys()
       childKey.forEach((item) => {
         let index = currentKeys.indexOf(item)
