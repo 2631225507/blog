@@ -25,12 +25,12 @@ module.exports = {
             },
             {
                 text: 'GitHub',
-                link: 'https://github.com/2631225507/blog.git'
+                link: 'https://2631225507.github.io/blog/'
             },
         ],
         // 侧边栏
         sidebar: [{
-                title: "基础知识",
+                title: "基础",
                 path: '/note/uniapp', // 默认激活的选项
                 collapsable: false, // 不折叠
                 children: [{

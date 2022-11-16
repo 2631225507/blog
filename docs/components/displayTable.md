@@ -115,7 +115,7 @@ export default {
                 num: "182743261",
                 grade: "",
                 class: "",
-                remark: ""
+                remark: "如需校验规则，请自行手动配置"
             },
             gradeOptions:[
                 {
@@ -207,7 +207,7 @@ export default {
                 num: "182743261",
                 grade: "",
                 class: "",
-                remark: ""
+                remark: "如需校验规则，请自行手动配置"
             },
             gradeOptions:[
                 {

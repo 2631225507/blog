@@ -1,38 +1,121 @@
 ## 基础用法
 
-基础的表格结构展示
-<template>
-    <one-display-table :tableList="list"  :tableForm="tableForm" />
-</template>
+下拉树形结构展示(this.$refs.xxx.selectTreeClearHandle()可用于清楚已选数据)
 
-<demo-block>
-
-```vue
 <template>
-  <one-display-table :tableList="list"  :tableForm="tableForm" />
+    <one-tree-select 
+        ref="treeSelect"
+        :value="id"
+        :options="dataOptions"
+        :props="dataDefaultProps"
+        placeholder="请选择"
+        @getValue="getValue($event)" />
 </template>
 
 <script>
 export default {
     data() {
         return {
-            list: [
-                { label: '学生姓名', key: 'name', span: '8' },
-                { label: '学校名称', key: 'school', span: '8' },
-                { label: '学籍号', key: 'num', span: '8' },
-                { label: '年级', key: 'grade', span: '12' },
-                { label: '班级', key: 'class', span: '12' },
-                { label: '备注', key: 'remark', span: '24' }
-            ],
-            tableForm:{
-                name:'小试牛刀',
-                school:"超人学院",
-                num:"182743261",
-                grade:"初一",
-                class:"一班",
-                remark:""
+            id :'1',
+            dataOptions:[{
+              id :'1',
+              unitName: '指南',
+              children: [{
+                id :'11',
+                unitName: '设计原则',
+                children: [{
+                  id :'111',
+                  unitName: '一致',
+                  children:[]
+                }]
+              }]
+            },
+            {
+              id :'22',
+              unitName: '设计模式',
+              children: [{
+                id :'222',
+                unitName: '工厂',
+                children: [{
+                  id :'3333',
+                  unitName: '代理',
+                  children:[]
+                }]
+              }]
+            }],
+            dataDefaultProps:{
+                value: 'id', // ID字段名
+                label: 'unitName', // 显示名称
+                children: 'children', // 子级字段名
             }
         }
+    },
+    methods:{
+      getValue(obj) {
+        // 获取选中的订阅主体Value
+        this.id = obj ? obj.id : ''
+    },
+    }
+}
+</script>
+
+
+<demo-block>
+
+```vue
+<template>
+    <one-tree-select 
+        ref="treeSelect"
+        :value="id"
+        :options="dataOptions"
+        :props="dataDefaultProps"
+        placeholder="请选择"
+        @getValue="getValue($event)" />
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            id :'1',
+            dataOptions:[{
+              id :'1',
+              unitName: '指南',
+              children: [{
+                id :'11',
+                unitName: '设计原则',
+                children: [{
+                  id :'111',
+                  unitName: '一致',
+                  children:[]
+                }]
+              }]
+            },
+            {
+              id :'22',
+              unitName: '设计模式',
+              children: [{
+                id :'222',
+                unitName: '工厂',
+                children: [{
+                  id :'3333',
+                  unitName: '代理',
+                  children:[]
+                }]
+              }]
+            }],
+            dataDefaultProps:{
+                value: 'id', // ID字段名
+                label: 'unitName', // 显示名称
+                children: 'children', // 子级字段名
+            }
+        }
+    },
+    methods:{
+      getValue(obj) {
+        // 获取选中的订阅主体Value
+        this.id = obj ? obj.id : ''
+    },
     }
 }
 </script>
@@ -69,6 +152,12 @@ export default {
 |  label   |  文本配置项  | string |  label   |
 |  value   |   id配置项   | string |    Id    |
 | children | 子节点配置项 | string | children |
+
+### Events
+
+| 事件名称 | 说明               | 回调参数     |
+| :------- | :----------------- | :----------- |
+| getValue | 选中节点变化时触发 | 当前选中节点 |
 
 ## 组件源码
 
