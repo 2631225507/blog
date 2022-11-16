@@ -33,7 +33,7 @@ export default {
       default: () => {
         return {
           value: 'id', // ID字段名
-          label: 'title', // 显示名称
+          label: 'label', // 显示名称
           children: 'children', // 子级字段名
         }
       },

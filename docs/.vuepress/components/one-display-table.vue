@@ -1,5 +1,5 @@
 <template>
-    <div class="display-info w-99">
+    <div class="display-info w-100">
         <div class="flex-layout">
             <div class="table-ly info-item" v-for="(item, index) in tableList" :key="index" :style="{
                 width: ((item.span ? item.span : 24) / 24).toFixed(6) * 100 + '%',
@@ -93,8 +93,8 @@ export default {
     text-overflow: ellipsis;
 }
 
-.w-99 {
-    width: 99% !important;
+.w-100 {
+    width: 100% !important;
 }
 
 .px-5 {

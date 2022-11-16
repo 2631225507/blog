@@ -52,6 +52,9 @@ module.exports = {
                 children: [{
                     title: "组合表格",
                     path: "/components/displayTable"
+                },{
+                    title: "下拉单选树",
+                    path: "/components/treeSelect"
                 }],
             }
         ]
