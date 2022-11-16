@@ -25,7 +25,7 @@ export default {
       default: () => {
         return {
           value: 'id', // ID字段名
-          label: 'title', // 显示名称
+          label: 'label', // 显示名称
           children: 'children', // 子级字段名
         }
       },
@@ -167,7 +167,12 @@ export default {
       } else if (this.checkStrictly && this.childCascade && this.type == '1') {
         this.clickDeal(node, store)
       }
-      // 进行数据回填
+      this.dataBackfill()
+    },
+    /**
+     * 数据回填
+     */
+    dataBackfill(){
       const checkedNodes = this.$refs.multipleSelectTree.getCheckedNodes()
       const keyArr = []
       const valueArr = []
@@ -179,7 +184,6 @@ export default {
       this.multipleSelectTreeKey = keyArr.join(',')
       this.$emit('getValue', this.multipleSelectTreeKey)
     },
-
     clickDeal(currentObj, treeStatus) {
       // 用于：父子节点严格互不关联时，父节点勾选变化时通知子节点同步变化，实现单向关联。
       let selected = treeStatus.checkedKeys.indexOf(currentObj[this.props.value]) // -1未选中
@@ -225,6 +229,7 @@ export default {
         }
       })
       this.$refs.multipleSelectTree.setCheckedKeys(currentKeys)
+      this.dataBackfill()
     },
     /**
      * 根据条件获取父级节点
