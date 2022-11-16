@@ -51,9 +51,9 @@ export default {
         }
     },
     methods:{
-      getValue(obj) {
-        this.id = obj ? obj.id : ''
-    },
+      getValue(ids) {
+        this.id = ids
+      }
     }
 }
 </script>
@@ -63,57 +63,57 @@ export default {
 
 ```vue
 <template>
-    <one-tree-select 
-        ref="treeSelect"
-        :value="id"
-        :options="dataOptions"
+   <one-multiple-tree-select
+        ref="mulTreeSelect"
+        :value="ids"
         :props="dataDefaultProps"
+        :options="dataOptions"
         placeholder="请选择"
-        @getValue="getValue($event)" />
+        @getValue="getValue($event)"/>
 </template>
 
 <script>
 export default {
     data() {
         return {
-            id :'1',
+            ids :'1',
             dataOptions:[{
-              id :'1',
-              unitName: '指南',
+              unitId :'1',
+              name: '指南',
               children: [{
-                id :'11',
-                unitName: '设计原则',
+                unitId :'11',
+                name: '设计原则',
                 children: [{
-                  id :'111',
-                  unitName: '一致',
+                  unitId :'111',
+                  name: '一致',
                   children:[]
                 }]
               }]
             },
             {
-              id :'22',
-              unitName: '设计模式',
+              unitId :'22',
+              name: '设计模式',
               children: [{
-                id :'222',
-                unitName: '工厂',
+                unitId :'222',
+                name: '工厂',
                 children: [{
-                  id :'3333',
-                  unitName: '代理',
+                  unitId :'3333',
+                  name: '代理',
                   children:[]
                 }]
               }]
             }],
             dataDefaultProps:{
-                value: 'id', // ID字段名
-                label: 'unitName', // 显示名称
-                children: 'children', // 子级字段名
+                label: 'name',
+                value: 'unitId',
+                children: 'children',
             }
         }
     },
     methods:{
-      getValue(obj) {
-        this.id = obj ? obj.id : ''
-    },
+      getValue(ids) {
+        this.ids = ids
+      }
     }
 }
 </script>

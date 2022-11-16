@@ -57,6 +57,9 @@ module.exports = {
                 },{
                     title: "下拉单选树",
                     path: "/components/treeSelect"
+                },{
+                    title: "下拉多选树",
+                    path: "/components/mulTreeSelect"
                 }],
             }
         ]
