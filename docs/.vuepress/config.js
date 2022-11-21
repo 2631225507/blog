@@ -20,7 +20,7 @@ module.exports = {
         // 顶部tabbar
         nav: [
             {
-                text: '主页',
+                text: '文档',
                 link: '/'
             },
             {
