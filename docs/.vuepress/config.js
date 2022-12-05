@@ -60,6 +60,12 @@ module.exports = {
                 },{
                     title: "下拉多选树",
                     path: "/components/mulTreeSelect"
+                },{
+                    title: "时钟展示",
+                    path: "/components/clock"
+                },{
+                    title: "按钮选中",
+                    path: "/components/buttonSelect"
                 }],
             }
         ]
